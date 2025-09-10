@@ -13,7 +13,6 @@ import Gallery from "@/pages/gallery";
 import Feedback from "@/pages/feedback";
 import Contact from "@/pages/contact";
 import Bookmarks from "@/pages/bookmarks";
-import FacultyDashboard from "@/pages/faculty-dashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -29,7 +28,6 @@ function Router() {
           <Route path="/feedback" component={Feedback} />
           <Route path="/contact" component={Contact} />
           <Route path="/bookmarks" component={Bookmarks} />
-          <Route path="/faculty-dashboard" component={FacultyDashboard} />
           <Route component={NotFound} />
         </Switch>
       </main>

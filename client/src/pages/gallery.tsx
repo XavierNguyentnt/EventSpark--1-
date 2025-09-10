@@ -12,11 +12,11 @@ export default function Gallery() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl font-bold text-foreground mb-6" data-testid="text-gallery-hero-title">
-              Event Gallery
+              Bộ sưu tập ảnh sự kiện
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto" data-testid="text-gallery-hero-description">
-              Relive the memorable moments from our past events. Browse through our collection 
-              of photos organized by year and category.
+              Khám phá những khoảnh khắc đáng nhớ từ các sự kiện trường đại học. 
+              Xem lại những hình ảnh được tổ chức theo năm và thể loại.
             </p>
           </div>
         </div>
@@ -35,12 +35,16 @@ export default function Gallery() {
           {galleryItems.length > 0 && (
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-foreground" data-testid="text-gallery-count">
-                Showing {galleryItems.length} photo{galleryItems.length !== 1 ? 's' : ''}
+                Hiển thị {galleryItems.length} ảnh
                 {filter !== 'all' && (
                   <span className="text-muted-foreground">
-                    {' '}from{' '}
+                    {' '}từ{' '}
                     <span className="capitalize">
-                      {filter === '2024' || filter === '2023' ? filter : `${filter} events`}
+                      {filter === '2024' || filter === '2023' ? `năm ${filter}` : 
+                       filter === 'cultural' ? 'sự kiện văn hóa' :
+                       filter === 'sports' ? 'sự kiện thể thao' :
+                       filter === 'academic' ? 'sự kiện học thuật' :
+                       filter === 'departmental' ? 'sự kiện khoa/bộ môn' : `sự kiện ${filter}`}
                     </span>
                   </span>
                 )}
@@ -56,20 +60,20 @@ export default function Gallery() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-6" data-testid="text-gallery-info-title">
-            Capturing Campus Life
+            Ghi lại cuộc sống trường đại học
           </h2>
           <p className="text-lg text-muted-foreground mb-8" data-testid="text-gallery-info-description">
-            Our gallery showcases the vibrant life at CampusConnect College. From academic achievements 
-            to cultural celebrations, from sports victories to innovative projects - every moment tells 
-            a story of growth, learning, and community.
+            Bộ sưu tập ảnh của chúng tôi thể hiện cuộc sống sôi động tại CampusConnect. Từ những thành tựu học thuật 
+            đến các lễ hội văn hóa, từ chiến thắng thể thao đến các dự án đổi mới - mỗi khoảnh khắc đều kể lên 
+            câu chuyện về sự phát triển, học tập và cộng đồng.
           </p>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { category: 'Technical', count: '15+', description: 'Innovation showcases and tech events' },
-              { category: 'Cultural', count: '25+', description: 'Festivals and artistic performances' },
-              { category: 'Sports', count: '20+', description: 'Athletic competitions and victories' },
-              { category: 'Academic', count: '30+', description: 'Conferences and learning activities' }
+              { category: 'Công nghệ', count: '15+', description: 'Triển lãm đổi mới và sự kiện công nghệ' },
+              { category: 'Văn hóa', count: '25+', description: 'Lễ hội và biểu diễn nghệ thuật' },
+              { category: 'Thể thao', count: '20+', description: 'Thi đấu thể thao và chiến thắng' },
+              { category: 'Học thuật', count: '30+', description: 'Hội thảo và hoạt động học tập' }
             ].map((stat, index) => (
               <div key={index} className="text-center" data-testid={`stat-${index}`}>
                 <div className="text-3xl font-bold text-primary mb-2">{stat.count}</div>

@@ -7,13 +7,13 @@ interface GalleryFiltersProps {
 }
 
 const filterOptions: { value: GalleryFilter; label: string }[] = [
-  { value: 'all', label: 'All Photos' },
-  { value: '2024', label: '2024' },
-  { value: '2023', label: '2023' },
-  { value: 'technical', label: 'Technical' },
-  { value: 'cultural', label: 'Cultural' },
-  { value: 'sports', label: 'Sports' },
-  { value: 'academic', label: 'Academic' },
+  { value: 'all', label: 'Tất cả ảnh' },
+  { value: '2024', label: 'Năm 2024' },
+  { value: '2023', label: 'Năm 2023' },
+  { value: 'technical', label: 'Công nghệ' },
+  { value: 'cultural', label: 'Văn hóa' },
+  { value: 'sports', label: 'Thể thao' },
+  { value: 'academic', label: 'Học thuật' },
 ];
 
 export function GalleryFilters({ currentFilter, onFilterChange }: GalleryFiltersProps) {
