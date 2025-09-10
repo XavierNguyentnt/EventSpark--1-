@@ -1,8 +1,10 @@
 import { Event } from '@/types/event';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/date-utils';
-import { Clock, MapPin, User, Users } from 'lucide-react';
+import { Clock, MapPin, User, Users, Bookmark, BookmarkCheck } from 'lucide-react';
+import { useUser } from '@/contexts/user-context';
 
 interface EventCardProps {
   event: Event;
@@ -17,6 +19,17 @@ const categoryColors = {
 };
 
 export function EventCard({ event, variant = 'default' }: EventCardProps) {
+  const { user, isEventBookmarked, bookmarkEvent, unbookmarkEvent } = useUser();
+  const isBookmarked = isEventBookmarked(event.id);
+
+  const handleBookmarkToggle = () => {
+    if (isBookmarked) {
+      unbookmarkEvent(event.id);
+    } else {
+      bookmarkEvent(event.id);
+    }
+  };
+
   return (
     <Card className="overflow-hidden shadow-lg card-hover" data-testid={`card-event-${event.id}`}>
       <div className="aspect-video relative overflow-hidden">
@@ -25,11 +38,28 @@ export function EventCard({ event, variant = 'default' }: EventCardProps) {
           alt={event.name}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
-        {variant === 'highlight' && (
-          <div className="absolute top-4 left-4">
+        <div className="absolute top-4 left-4 flex gap-2">
+          {variant === 'highlight' && (
             <Badge className="bg-primary text-primary-foreground">
               Featured
             </Badge>
+          )}
+        </div>
+        {user && user.role !== 'visitor' && (
+          <div className="absolute top-4 right-4">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleBookmarkToggle}
+              className="bg-white/90 hover:bg-white"
+              data-testid={`button-bookmark-${event.id}`}
+            >
+              {isBookmarked ? (
+                <BookmarkCheck className="h-4 w-4 text-primary" />
+              ) : (
+                <Bookmark className="h-4 w-4" />
+              )}
+            </Button>
           </div>
         )}
       </div>

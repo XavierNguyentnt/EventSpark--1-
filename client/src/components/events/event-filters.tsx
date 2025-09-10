@@ -10,17 +10,17 @@ interface EventFiltersProps {
 }
 
 const filterOptions: { value: EventCategory; label: string }[] = [
-  { value: 'all', label: 'All Events' },
-  { value: 'academic', label: 'Academic' },
-  { value: 'cultural', label: 'Cultural' },
-  { value: 'sports', label: 'Sports' },
-  { value: 'departmental', label: 'Departmental' },
+  { value: 'all', label: 'Tất cả sự kiện' },
+  { value: 'academic', label: 'Học thuật' },
+  { value: 'cultural', label: 'Văn hóa' },
+  { value: 'sports', label: 'Thể thao' },
+  { value: 'departmental', label: 'Khoa/Bộ môn' },
 ];
 
 const sortOptions: { value: EventSortBy; label: string }[] = [
-  { value: 'date', label: 'Sort by Date' },
-  { value: 'name', label: 'Sort by Name' },
-  { value: 'category', label: 'Sort by Category' },
+  { value: 'date', label: 'Sắp xếp theo ngày' },
+  { value: 'name', label: 'Sắp xếp theo tên' },
+  { value: 'category', label: 'Sắp xếp theo loại' },
 ];
 
 export function EventFilters({

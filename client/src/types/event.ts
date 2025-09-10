@@ -12,7 +12,18 @@ export interface Event {
   status: 'upcoming' | 'ongoing' | 'past';
   registrationRequired?: boolean;
   capacity?: number;
+  bookmarked?: boolean;
 }
 
 export type EventCategory = Event['category'] | 'all';
 export type EventSortBy = 'date' | 'name' | 'category';
+
+export type UserRole = 'student' | 'faculty' | 'visitor';
+
+export interface User {
+  id: string;
+  name: string;
+  role: UserRole;
+  department?: string;
+  bookmarkedEvents: number[];
+}

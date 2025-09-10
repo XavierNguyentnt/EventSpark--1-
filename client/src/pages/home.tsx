@@ -28,20 +28,20 @@ export default function Home() {
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 fade-in" data-testid="text-hero-title">
-            Welcome to CampusConnect
+            Chào mừng đến với CampusConnect
           </h1>
           <p className="text-xl md:text-2xl mb-8 fade-in" data-testid="text-hero-subtitle">
-            Your Gateway to Campus Events and Activities
+            Cổng thông tin sự kiện và hoạt động campus của bạn
           </p>
           <p className="text-lg mb-8 fade-in" data-testid="text-hero-description">
-            Stay Updated, Stay Involved - Discover exciting events, connect with your community, 
-            and make the most of your college experience.
+            Luôn cập nhật, luôn tham gia - Khám phá các sự kiện thú vị, kết nối với cộng đồng, 
+            và tận dụng tối đa trải nghiệm đại học của bạn.
           </p>
           
           <div className="space-x-4">
             <Link href="/events">
               <Button size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-explore-events">
-                Explore Events
+                Khám phá sự kiện
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -52,7 +52,7 @@ export default function Home() {
               onClick={() => scrollToSection('about-preview')}
               data-testid="button-learn-more"
             >
-              Learn More
+              Tìm hiểu thêm
             </Button>
           </div>
         </div>
@@ -63,10 +63,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4" data-testid="text-upcoming-title">
-              Upcoming Events Highlights
+              Điểm nổi bật sự kiện sắp tới
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-upcoming-description">
-              Don't miss out on these exciting upcoming events that will enrich your campus experience
+              Đừng bỏ lỡ những sự kiện thú vị sắp tới sẽ làm phong phú thêm trải nghiệm campus của bạn
             </p>
           </div>
           
@@ -79,7 +79,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link href="/events">
               <Button size="lg" data-testid="button-view-all-events">
-                View All Events
+                Xem tất cả sự kiện
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -93,32 +93,32 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-foreground mb-6" data-testid="text-about-title">
-                About CampusConnect College
+                Về Trường CampusConnect
               </h2>
               <p className="text-lg text-muted-foreground mb-6" data-testid="text-about-description">
-                Our college is a premier institution dedicated to fostering academic excellence, innovation, 
-                and personal growth. Located in the heart of the city, we have been serving the community 
-                for over 50 years, creating leaders and changemakers who contribute to society.
+                Trường chúng tôi là một cơ sở giáo dục hàng đầu chuyên về đào tạo xuất sắc, đổi mới sáng tạo 
+                và phát triển cá nhân. Tọa lạc tại trung tâm thành phố, chúng tôi đã phục vụ cộng đồng 
+                hơn 50 năm, tạo ra những nhà lãnh đạo và những người tạo ra sự thay đổi đóng góp cho xã hội.
               </p>
               <p className="text-lg text-muted-foreground mb-8">
-                With state-of-the-art facilities, renowned faculty, and a vibrant campus life, we provide 
-                an environment where students can thrive academically, socially, and personally.
+                Với cơ sở vật chất hiện đại, đội ngũ giảng viên nổi tiếng và cuộc sống campus sôi động, chúng tôi cung cấp 
+                một môi trường nơi sinh viên có thể phát triển về mặt học thuật, xã hội và cá nhân.
               </p>
               
               <div className="grid sm:grid-cols-2 gap-4 mb-8">
                 <div className="bg-accent p-4 rounded-lg">
-                  <h4 className="font-semibold text-accent-foreground mb-2">Academic Excellence</h4>
-                  <p className="text-sm text-muted-foreground">Top-tier programs across multiple disciplines</p>
+                  <h4 className="font-semibold text-accent-foreground mb-2">Xuất sắc học thuật</h4>
+                  <p className="text-sm text-muted-foreground">Các chương trình hàng đầu trên nhiều ngành học</p>
                 </div>
                 <div className="bg-accent p-4 rounded-lg">
-                  <h4 className="font-semibold text-accent-foreground mb-2">Research Innovation</h4>
-                  <p className="text-sm text-muted-foreground">Cutting-edge research facilities and opportunities</p>
+                  <h4 className="font-semibold text-accent-foreground mb-2">Đổi mới nghiên cứu</h4>
+                  <p className="text-sm text-muted-foreground">Cơ sở nghiên cứu và cơ hội tiên tiến</p>
                 </div>
               </div>
               
               <Link href="/about">
                 <Button data-testid="button-learn-about">
-                  Learn More About Us
+                  Tìm hiểu thêm về chúng tôi
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>

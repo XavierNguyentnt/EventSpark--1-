@@ -5,9 +5,22 @@ import eventsData from '@/data/events.json';
 export function useEvents() {
   const [filter, setFilter] = useState<EventCategory>('all');
   const [sortBy, setSortBy] = useState<EventSortBy>('date');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const events = useMemo(() => {
     let filteredEvents = eventsData as Event[];
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      filteredEvents = filteredEvents.filter(event => 
+        event.name.toLowerCase().includes(query) ||
+        event.description.toLowerCase().includes(query) ||
+        event.department.toLowerCase().includes(query) ||
+        event.organizer.toLowerCase().includes(query) ||
+        event.venue.toLowerCase().includes(query)
+      );
+    }
 
     // Apply category filter
     if (filter !== 'all') {
@@ -28,7 +41,7 @@ export function useEvents() {
     }
 
     return filteredEvents;
-  }, [filter, sortBy]);
+  }, [filter, sortBy, searchQuery]);
 
   const upcomingEvents = useMemo(() => {
     return (eventsData as Event[])
@@ -44,5 +57,7 @@ export function useEvents() {
     setFilter,
     sortBy,
     setSortBy,
+    searchQuery,
+    setSearchQuery,
   };
 }
