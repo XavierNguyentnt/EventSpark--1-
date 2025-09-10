@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect - College Event Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    popover: {
+                        DEFAULT: "var(--popover)",
+                        foreground: "var(--popover-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                },
+                fontFamily: {
+                    sans: ["Inter", "sans-serif"],
+                }
+            },
+        }
+    };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --background: hsl(0 0% 100%);
+            --foreground: hsl(222.2 84% 4.9%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(222.2 84% 4.9%);
+            --popover: hsl(0 0% 100%);
+            --popover-foreground: hsl(222.2 84% 4.9%);
+            --primary: hsl(142 40% 25%);
+            --primary-foreground: hsl(210 40% 98%);
+            --secondary: hsl(43 74% 66%);
+            --secondary-foreground: hsl(222.2 84% 4.9%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(215.4 16.3% 46.9%);
+            --accent: hsl(210 40% 96%);
+            --accent-foreground: hsl(222.2 84% 4.9%);
+            --destructive: hsl(0 84.2% 60.2%);
+            --destructive-foreground: hsl(210 40% 98%);
+            --border: hsl(214.3 31.8% 91.4%);
+            --input: hsl(214.3 31.8% 91.4%);
+            --ring: hsl(142 40% 25%);
+            --radius: 0.5rem;
+        }
+        
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(45, 90, 61, 0.9) 0%, rgba(184, 134, 11, 0.8) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-md fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-primary">CampusConnect</h1>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="#about" class="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        <a href="#events" class="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Events</a>
+                        <a href="#gallery" class="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Gallery</a>
+                        <a href="#feedback" class="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Feedback</a>
+                        <a href="#contact" class="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-foreground hover:text-primary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="#home" class="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#about" class="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#events" class="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Events</a>
+                <a href="#gallery" class="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Gallery</a>
+                <a href="#feedback" class="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Feedback</a>
+                <a href="#contact" class="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="pt-16">
+        <!-- Hero Banner -->
+        <div class="relative h-screen flex items-center justify-center">
+            <!-- Modern college campus with students -->
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&h=1080');"></div>
+            <div class="absolute inset-0 hero-gradient"></div>
+            <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 fade-in">Welcome to CampusConnect</h1>
+                <p class="text-xl md:text-2xl mb-8 fade-in">Your Gateway to Campus Events and Activities</p>
+                <p class="text-lg mb-8 fade-in">Stay Updated, Stay Involved - Discover exciting events, connect with your community, and make the most of your college experience.</p>
+                <div class="space-x-4">
+                    <button onclick="scrollToSection('events')" class="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-colors">Explore Events</button>
+                    <button onclick="scrollToSection('about')" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors">Learn More</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Events Highlights -->
+        <div class="py-16 bg-muted">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-foreground mb-4">Upcoming Events Highlights</h2>
+                    <p class="text-lg text-muted-foreground max-w-2xl mx-auto">Don't miss out on these exciting upcoming events that will enrich your campus experience</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8" id="upcoming-events">
+                    <!-- Events will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-foreground mb-6">About Our College</h2>
+                    <p class="text-lg text-muted-foreground mb-6">
+                        Our college is a premier institution dedicated to fostering academic excellence, innovation, and personal growth. 
+                        Located in the heart of the city, we have been serving the community for over 50 years, creating leaders and 
+                        changemakers who contribute to society.
+                    </p>
+                    <p class="text-lg text-muted-foreground mb-8">
+                        With state-of-the-art facilities, renowned faculty, and a vibrant campus life, we provide an environment 
+                        where students can thrive academically, socially, and personally.
+                    </p>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="bg-accent p-4 rounded-lg">
+                            <h4 class="font-semibold text-accent-foreground mb-2">Academic Excellence</h4>
+                            <p class="text-sm text-muted-foreground">Top-tier programs across multiple disciplines</p>
+                        </div>
+                        <div class="bg-accent p-4 rounded-lg">
+                            <h4 class="font-semibold text-accent-foreground mb-2">Research Innovation</h4>
+                            <p class="text-sm text-muted-foreground">Cutting-edge research facilities and opportunities</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!-- College building exterior view -->
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="College campus building" class="rounded-xl shadow-lg w-full h-auto" />
+                </div>
+            </div>
+
+            <!-- Key Annual Events -->
+            <div class="mt-16">
+                <h3 class="text-3xl font-bold text-foreground mb-8 text-center">Key Annual Events</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-card border border-border rounded-lg p-6 card-hover">
+                        <div class="text-primary text-3xl mb-4">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">Technical Events</h4>
+                        <ul class="text-muted-foreground space-y-2">
+                            <li>• TechFest - Annual technology festival</li>
+                            <li>• Hackathon - 24-hour coding marathon</li>
+                            <li>• Robotics Championship</li>
+                            <li>• Innovation Expo</li>
+                        </ul>
+                    </div>
+                    <div class="bg-card border border-border rounded-lg p-6 card-hover">
+                        <div class="text-secondary text-3xl mb-4">
+                            <i class="fas fa-masks-theater"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">Cultural Events</h4>
+                        <ul class="text-muted-foreground space-y-2">
+                            <li>• Annual Day Celebration</li>
+                            <li>• Music & Dance Nights</li>
+                            <li>• Art Exhibition</li>
+                            <li>• Drama Festival</li>
+                        </ul>
+                    </div>
+                    <div class="bg-card border border-border rounded-lg p-6 card-hover">
+                        <div class="text-destructive text-3xl mb-4">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">Sports & Activities</h4>
+                        <ul class="text-muted-foreground space-y-2">
+                            <li>• Inter-college Sports Meet</li>
+                            <li>• Basketball Tournament</li>
+                            <li>• Marathon & Fun Run</li>
+                            <li>• Alumni Meet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="py-16 bg-muted">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-foreground mb-4">Event Calendar</h2>
+                <p class="text-lg text-muted-foreground max-w-2xl mx-auto">Explore our comprehensive list of upcoming and past events</p>
+            </div>
+
+            <!-- Event Filters -->
+            <div class="mb-8 flex flex-wrap gap-4 justify-center">
+                <button onclick="filterEvents('all')" class="filter-btn bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium transition-colors">All Events</button>
+                <button onclick="filterEvents('academic')" class="filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">Academic</button>
+                <button onclick="filterEvents('cultural')" class="filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">Cultural</button>
+                <button onclick="filterEvents('sports')" class="filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">Sports</button>
+                <button onclick="filterEvents('departmental')" class="filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">Departmental</button>
+            </div>
+
+            <!-- Sort Options -->
+            <div class="mb-8 text-center">
+                <select id="sort-select" onchange="sortEvents()" class="bg-white border border-border rounded-md px-4 py-2 text-foreground">
+                    <option value="date">Sort by Date</option>
+                    <option value="name">Sort by Name</option>
+                    <option value="category">Sort by Category</option>
+                </select>
+            </div>
+
+            <!-- Event Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid">
+                <!-- Events will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-foreground mb-4">Event Gallery</h2>
+                <p class="text-lg text-muted-foreground max-w-2xl mx-auto">Relive the memorable moments from our past events</p>
+            </div>
+
+            <!-- Gallery Filters -->
+            <div class="mb-8 flex flex-wrap gap-4 justify-center">
+                <button onclick="filterGallery('all')" class="gallery-filter-btn bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium transition-colors">All Photos</button>
+                <button onclick="filterGallery('2024')" class="gallery-filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">2024</button>
+                <button onclick="filterGallery('2023')" class="gallery-filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">2023</button>
+                <button onclick="filterGallery('technical')" class="gallery-filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">Technical</button>
+                <button onclick="filterGallery('cultural')" class="gallery-filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">Cultural</button>
+                <button onclick="filterGallery('sports')" class="gallery-filter-btn bg-white text-foreground px-4 py-2 rounded-md font-medium transition-colors hover:bg-accent">Sports</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4" id="gallery-grid">
+                <!-- Gallery images will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback" class="py-16 bg-muted">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-foreground mb-4">Event Feedback</h2>
+                <p class="text-lg text-muted-foreground">We value your feedback to improve our events and services</p>
+            </div>
+
+            <div class="bg-card border border-border rounded-lg p-8">
+                <form id="feedback-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-card-foreground mb-2">Full Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring" data-mock="true" placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-card-foreground mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring" data-mock="true" placeholder="Enter your email">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="user-type" class="block text-sm font-medium text-card-foreground mb-2">User Type</label>
+                            <select id="user-type" name="user-type" class="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring" data-mock="true">
+                                <option value="">Select user type</option>
+                                <option value="student">Student</option>
+                                <option value="faculty">Faculty</option>
+                                <option value="staff">Staff</option>
+                                <option value="visitor">Visitor</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="event-attended" class="block text-sm font-medium text-card-foreground mb-2">Event Attended</label>
+                            <select id="event-attended" name="event-attended" class="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring" data-mock="true">
+                                <option value="">Select event</option>
+                                <option value="techfest-2024">TechFest 2024</option>
+                                <option value="cultural-week">Cultural Week</option>
+                                <option value="sports-meet">Sports Meet</option>
+                                <option value="innovation-expo">Innovation Expo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="rating" class="block text-sm font-medium text-card-foreground mb-2">Event Rating</label>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-muted-foreground">Poor</span>
+                            <div class="flex space-x-1" id="rating-stars">
+                                <i class="fas fa-star text-gray-300 hover:text-secondary cursor-pointer rating-star" data-rating="1"></i>
+                                <i class="fas fa-star text-gray-300 hover:text-secondary cursor-pointer rating-star" data-rating="2"></i>
+                                <i class="fas fa-star text-gray-300 hover:text-secondary cursor-pointer rating-star" data-rating="3"></i>
+                                <i class="fas fa-star text-gray-300 hover:text-secondary cursor-pointer rating-star" data-rating="4"></i>
+                                <i class="fas fa-star text-gray-300 hover:text-secondary cursor-pointer rating-star" data-rating="5"></i>
+                            </div>
+                            <span class="text-sm text-muted-foreground">Excellent</span>
+                        </div>
+                        <input type="hidden" id="rating-value" name="rating" data-mock="true">
+                    </div>
+
+                    <div>
+                        <label for="comments" class="block text-sm font-medium text-card-foreground mb-2">Comments & Suggestions</label>
+                        <textarea id="comments" name="comments" rows="4" class="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring" data-mock="true" placeholder="Share your thoughts and suggestions about the event..."></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-colors" data-implementation="Non-functional as specified in requirements">Submit Feedback</button>
+                        <p class="text-sm text-muted-foreground mt-2">This form is for UI demonstration purposes only</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-foreground mb-4">Contact Us</h2>
+                <p class="text-lg text-muted-foreground">Get in touch with us for any inquiries or support</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold text-foreground mb-6">Get in Touch</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-primary text-primary-foreground p-3 rounded-lg">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-foreground">Address</h4>
+                                <p class="text-muted-foreground">123 College Street, Education City, EC 12345</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-primary text-primary-foreground p-3 rounded-lg">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-foreground">Phone</h4>
+                                <p class="text-muted-foreground">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-primary text-primary-foreground p-3 rounded-lg">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-foreground">Email</h4>
+                                <p class="text-muted-foreground">info@campusconnect.edu</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-primary text-primary-foreground p-3 rounded-lg">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-foreground">Office Hours</h4>
+                                <p class="text-muted-foreground">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <h4 class="font-semibold text-foreground mb-4">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-primary text-primary-foreground p-3 rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-primary-foreground p-3 rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-primary-foreground p-3 rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-primary-foreground p-3 rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Campus aerial view -->
+                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Campus aerial view" class="rounded-xl shadow-lg w-full h-auto" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-primary-foreground py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">CampusConnect</h3>
+                    <p class="text-primary-foreground/80 mb-4">Your gateway to campus events and activities. Stay connected, stay informed.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-primary-foreground/80 hover:text-primary-foreground">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-primary-foreground/80 hover:text-primary-foreground">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-primary-foreground/80 hover:text-primary-foreground">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-primary-foreground/80 hover:text-primary-foreground">Home</a></li>
+                        <li><a href="#about" class="text-primary-foreground/80 hover:text-primary-foreground">About</a></li>
+                        <li><a href="#events" class="text-primary-foreground/80 hover:text-primary-foreground">Events</a></li>
+                        <li><a href="#gallery" class="text-primary-foreground/80 hover:text-primary-foreground">Gallery</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Event Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-primary-foreground/80 hover:text-primary-foreground">Academic Events</a></li>
+                        <li><a href="#" class="text-primary-foreground/80 hover:text-primary-foreground">Cultural Events</a></li>
+                        <li><a href="#" class="text-primary-foreground/80 hover:text-primary-foreground">Sports Events</a></li>
+                        <li><a href="#" class="text-primary-foreground/80 hover:text-primary-foreground">Departmental Events</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-primary-foreground/80">
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>123 College Street, Education City</li>
+                        <li><i class="fas fa-phone mr-2"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope mr-2"></i>info@campusconnect.edu</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-primary-foreground/20 my-8">
+            <div class="text-center text-primary-foreground/80">
+                <p>&copy; 2024 CampusConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample JSON data for events
+        const eventsData = [
+            {
+                id: 1,
+                name: "TechFest 2025",
+                date: "2025-02-15",
+                time: "10:00 AM - 6:00 PM",
+                venue: "Main Auditorium",
+                category: "academic",
+                department: "Computer Science",
+                description: "Annual technology festival showcasing innovative projects and competitions",
+                organizer: "CS Department",
+                image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                status: "upcoming"
+            },
+            {
+                id: 2,
+                name: "Cultural Week 2025",
+                date: "2025-03-01",
+                time: "6:00 PM - 10:00 PM",
+                venue: "Campus Grounds",
+                category: "cultural",
+                department: "Student Affairs",
+                description: "Week-long celebration of arts, music, dance and cultural diversity",
+                organizer: "Cultural Committee",
+                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                status: "upcoming"
+            },
+            {
+                id: 3,
+                name: "Inter-College Sports Meet",
+                date: "2025-03-15",
+                time: "8:00 AM - 5:00 PM",
+                venue: "Sports Complex",
+                category: "sports",
+                department: "Physical Education",
+                description: "Annual sports competition featuring multiple sporting events",
+                organizer: "Sports Committee",
+                image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                status: "upcoming"
+            },
+            {
+                id: 4,
+                name: "Innovation Expo",
+                date: "2025-04-10",
+                time: "11:00 AM - 4:00 PM",
+                venue: "Exhibition Hall",
+                category: "academic",
+                department: "Engineering",
+                description: "Showcase of student innovations and research projects",
+                organizer: "Research Committee",
+                image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                status: "upcoming"
+            },
+            {
+                id: 5,
+                name: "Annual Day Celebration",
+                date: "2025-04-25",
+                time: "5:00 PM - 9:00 PM",
+                venue: "Main Auditorium",
+                category: "cultural",
+                department: "Administration",
+                description: "Grand celebration marking the college's founding anniversary",
+                organizer: "Admin Committee",
+                image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                status: "upcoming"
+            },
+            {
+                id: 6,
+                name: "Department Symposium",
+                date: "2025-05-05",
+                time: "2:00 PM - 6:00 PM",
+                venue: "Conference Room",
+                category: "departmental",
+                department: "Business Studies",
+                description: "Academic symposium featuring research presentations",
+                organizer: "Business Department",
+                image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                status: "upcoming"
+            }
+        ];
+
+        // Sample gallery data
+        const galleryData = [
+            {
+                id: 1,
+                src: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Students participating in university convocation ceremony",
+                year: "2024",
+                category: "cultural",
+                event: "Graduation Ceremony"
+            },
+            {
+                id: 2,
+                src: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Technology exhibition with innovative student projects",
+                year: "2024",
+                category: "technical",
+                event: "TechFest 2024"
+            },
+            {
+                id: 3,
+                src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Athletes competing in inter-college basketball tournament",
+                year: "2024",
+                category: "sports",
+                event: "Basketball Championship"
+            },
+            {
+                id: 4,
+                src: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Students performing traditional dance at cultural festival",
+                year: "2023",
+                category: "cultural",
+                event: "Cultural Week 2023"
+            },
+            {
+                id: 5,
+                src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Scientific research conference with academic presentations",
+                year: "2023",
+                category: "technical",
+                event: "Research Symposium"
+            },
+            {
+                id: 6,
+                src: "https://images.unsplash.com/photo-1530549387789-4c1017266635?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Soccer match during inter-college sports competition",
+                year: "2023",
+                category: "sports",
+                event: "Football Tournament"
+            },
+            {
+                id: 7,
+                src: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Innovation showcase featuring student engineering projects",
+                year: "2024",
+                category: "technical",
+                event: "Innovation Expo"
+            },
+            {
+                id: 8,
+                src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+                alt: "Students collaborating during academic group study session",
+                year: "2024",
+                category: "cultural",
+                event: "Student Life"
+            }
+        ];
+
+        let currentEvents = [...eventsData];
+        let currentGallery = [...galleryData];
+
+        // Load initial content
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUpcomingEvents();
+            loadEvents();
+            loadGallery();
+            setupEventListeners();
+        });
+
+        function loadUpcomingEvents() {
+            const upcomingContainer = document.getElementById('upcoming-events');
+            const upcomingEvents = eventsData.filter(event => event.status === 'upcoming').slice(0, 3);
+            
+            upcomingContainer.innerHTML = upcomingEvents.map(event => `
+                <div class="bg-card border border-border rounded-lg overflow-hidden shadow-lg card-hover">
+                    <img src="${event.image}" alt="${event.name}" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="text-sm text-primary font-semibold mb-2">${formatDate(event.date)}</div>
+                        <h3 class="text-xl font-bold text-card-foreground mb-3">${event.name}</h3>
+                        <p class="text-muted-foreground mb-4">${event.description}</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-muted-foreground">
+                                <i class="fas fa-clock mr-1"></i>${event.time}
+                            </span>
+                            <span class="text-sm text-muted-foreground">
+                                <i class="fas fa-map-marker-alt mr-1"></i>${event.venue}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadEvents() {
+            const eventsContainer = document.getElementById('events-grid');
+            
+            eventsContainer.innerHTML = currentEvents.map(event => `
+                <div class="event-card bg-card border border-border rounded-lg overflow-hidden shadow-lg card-hover" data-category="${event.category}" data-date="${event.date}" data-name="${event.name}">
+                    <img src="${event.image}" alt="${event.name}" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-${getCategoryColor(event.category)} text-white px-3 py-1 rounded-full text-sm font-medium">${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</span>
+                            <span class="text-sm text-muted-foreground">${formatDate(event.date)}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-card-foreground mb-3">${event.name}</h3>
+                        <p class="text-muted-foreground mb-4">${event.description}</p>
+                        <div class="space-y-2 text-sm text-muted-foreground">
+                            <div><i class="fas fa-clock mr-2"></i>${event.time}</div>
+                            <div><i class="fas fa-map-marker-alt mr-2"></i>${event.venue}</div>
+                            <div><i class="fas fa-user mr-2"></i>${event.organizer}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadGallery() {
+            const galleryContainer = document.getElementById('gallery-grid');
+            
+            galleryContainer.innerHTML = currentGallery.map(item => `
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg card-hover" data-year="${item.year}" data-category="${item.category}">
+                    <img src="${item.src}" alt="${item.alt}" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-3 bg-card">
+                        <p class="text-sm font-medium text-card-foreground">${item.event}</p>
+                        <p class="text-xs text-muted-foreground">${item.year} • ${item.category}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterEvents(category) {
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-primary-foreground');
+                btn.classList.add('bg-white', 'text-foreground');
+            });
+            event.target.classList.remove('bg-white', 'text-foreground');
+            event.target.classList.add('bg-primary', 'text-primary-foreground');
+
+            // Filter events
+            if (category === 'all') {
+                currentEvents = [...eventsData];
+            } else {
+                currentEvents = eventsData.filter(event => event.category === category);
+            }
+            loadEvents();
+        }
+
+        function sortEvents() {
+            const sortBy = document.getElementById('sort-select').value;
+            
+            switch(sortBy) {
+                case 'date':
+                    currentEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'name':
+                    currentEvents.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'category':
+                    currentEvents.sort((a, b) => a.category.localeCompare(b.category));
+                    break;
+            }
+            loadEvents();
+        }
+
+        function filterGallery(filter) {
+            // Update button states
+            document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-primary-foreground');
+                btn.classList.add('bg-white', 'text-foreground');
+            });
+            event.target.classList.remove('bg-white', 'text-foreground');
+            event.target.classList.add('bg-primary', 'text-primary-foreground');
+
+            // Filter gallery
+            if (filter === 'all') {
+                currentGallery = [...galleryData];
+            } else if (filter === '2024' || filter === '2023') {
+                currentGallery = galleryData.filter(item => item.year === filter);
+            } else {
+                currentGallery = galleryData.filter(item => item.category === filter);
+            }
+            loadGallery();
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                'academic': 'primary',
+                'cultural': 'secondary',
+                'sports': 'destructive',
+                'departmental': 'accent'
+            };
+            return colors[category] || 'primary';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function setupEventListeners() {
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobile-menu');
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Rating stars interaction
+            const stars = document.querySelectorAll('.rating-star');
+            const ratingValue = document.getElementById('rating-value');
+            
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.dataset.rating;
+                    ratingValue.value = rating;
+                    
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.remove('text-gray-300');
+                            s.classList.add('text-secondary');
+                        } else {
+                            s.classList.remove('text-secondary');
+                            s.classList.add('text-gray-300');
+                        }
+                    });
+                });
+            });
+
+            // Feedback form submission (non-functional as specified)
+            document.getElementById('feedback-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('This form is for UI demonstration purposes only and does not submit data.');
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // TODO: Implement backend API integration for real event data
+        // TODO: Add user authentication for event registration
+        // TODO: Implement real-time event updates
+        // TODO: Add event reminder notifications
+        // TODO: Integrate with calendar applications
+    </script>
+</body>
+</html>
