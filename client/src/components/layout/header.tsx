@@ -21,10 +21,15 @@ export function Header() {
   const { user } = useUser();
 
   // Add bookmarks navigation for authenticated users
-  const userNavigation = user && user.role !== 'visitor' ? [
-    ...navigation,
-    { name: 'Sự kiện đã lưu', href: '/bookmarks' }
-  ] : navigation;
+  let userNavigation = [...navigation];
+  
+  if (user && user.role !== 'visitor') {
+    userNavigation.push({ name: 'Sự kiện đã lưu', href: '/bookmarks' });
+  }
+  
+  if (user && user.role === 'faculty') {
+    userNavigation.push({ name: 'Quản lý sự kiện', href: '/faculty-dashboard' });
+  }
 
   return (
     <nav className="bg-white shadow-md fixed top-0 w-full z-50">

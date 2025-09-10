@@ -38,6 +38,12 @@ export function useEvents() {
       case 'category':
         filteredEvents.sort((a, b) => a.category.localeCompare(b.category));
         break;
+      case 'venue':
+        filteredEvents.sort((a, b) => a.venue.localeCompare(b.venue));
+        break;
+      case 'time':
+        filteredEvents.sort((a, b) => a.time.localeCompare(b.time));
+        break;
     }
 
     return filteredEvents;

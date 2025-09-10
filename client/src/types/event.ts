@@ -16,7 +16,7 @@ export interface Event {
 }
 
 export type EventCategory = Event['category'] | 'all';
-export type EventSortBy = 'date' | 'name' | 'category';
+export type EventSortBy = 'date' | 'name' | 'category' | 'venue' | 'time';
 
 export type UserRole = 'student' | 'faculty' | 'visitor';
 

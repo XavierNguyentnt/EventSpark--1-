@@ -2,9 +2,19 @@ import { EventCard } from '@/components/events/event-card';
 import { EventFilters } from '@/components/events/event-filters';
 import { SearchBar } from '@/components/search/search-bar';
 import { useEvents } from '@/hooks/use-events';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Calendar, Clock, MapPin, User } from 'lucide-react';
 
 export default function Events() {
   const { events, filter, setFilter, sortBy, setSortBy, searchQuery, setSearchQuery } = useEvents();
+  
+  const sortOptions = [
+    { value: 'date', label: 'Sắp xếp theo ngày', icon: Calendar },
+    { value: 'name', label: 'Sắp xếp theo tên', icon: User },
+    { value: 'venue', label: 'Sắp xếp theo địa điểm', icon: MapPin },
+    { value: 'time', label: 'Sắp xếp theo thời gian', icon: Clock },
+  ];
 
   return (
     <div className="pt-16">
@@ -29,15 +39,38 @@ export default function Events() {
           <div className="max-w-2xl mx-auto">
             <SearchBar
               onSearch={setSearchQuery}
-              placeholder="Tìm kiếm theo tên, mô tả, khoa, địa điểm..."
+              placeholder="Tìm kiếm theo tên, mô tả, khoa, địa điểm, chủ đề..."
             />
           </div>
-          <EventFilters
-            currentFilter={filter}
-            onFilterChange={setFilter}
-            currentSort={sortBy}
-            onSortChange={setSortBy}
-          />
+          
+          <div className="flex flex-wrap gap-4 justify-center items-center">
+            <EventFilters
+              currentFilter={filter}
+              onFilterChange={setFilter}
+              currentSort={sortBy}
+              onSortChange={setSortBy}
+            />
+            
+            <div className="flex gap-2 items-center">
+              <span className="text-sm font-medium text-muted-foreground">Sắp xếp nâng cao:</span>
+              {sortOptions.map((option) => {
+                const IconComponent = option.icon;
+                return (
+                  <Button
+                    key={option.value}
+                    variant={sortBy === option.value ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSortBy(option.value as any)}
+                    className="gap-2"
+                    data-testid={`button-sort-${option.value}`}
+                  >
+                    <IconComponent className="h-4 w-4" />
+                    {option.label}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
